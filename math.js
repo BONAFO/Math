@@ -73,16 +73,10 @@ const multiplicacion_enteros = (nu1, nu2) => {
         const num1 = b[d2];
         const toSum = [];
 
-
-
-
         for (let d1 = 0; d1 < a.length; d1++) {
             toSum.push((a[d1] * num1).toString() + repeat(d1, '0'));
 
         }
-
-
-
 
         let result = "";
         for (let i = 0; i < toSum.length; i++) {
@@ -96,15 +90,9 @@ const multiplicacion_enteros = (nu1, nu2) => {
         }
 
 
-
-
         final_sum.push(result + repeat(d2, '0'))
 
-
-
     }
-
-
 
     let result = "";
     for (let i = 0; i < final_sum.length; i++) {
@@ -117,19 +105,7 @@ const multiplicacion_enteros = (nu1, nu2) => {
     }
 
 
-
     return result
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -175,7 +151,6 @@ const division_enteros = (dividendo, divisor) => {
 
             } while (true);
 
-            console.log(divisor_torest);
 
             cociente += bre;
 
@@ -291,3 +266,126 @@ const division_enteros_test = (a, b) => {
 
     }, 10);
 }
+
+
+const espacios_comas = (a, b) => {
+    console.log(a * b);
+}
+
+
+
+const get_cant_comas = (num) => {
+    if (num.includes(".")) {
+        const i = num.indexOf('.');
+        return num.substring(i + 1).length
+    }
+
+    return 0
+}
+
+
+
+
+const multiplicacion_decimales = (a, b) => {
+    let comas = 0;
+
+    a = a.toString().trim();
+    b = b.toString().trim();
+
+    const comas_arr = [get_cant_comas(a), get_cant_comas(b)];
+
+    for (let i = 0; i < comas_arr.length; i++) {
+        comas += comas_arr[i]
+    }
+
+    let result = multiplicacion_enteros(a.replace(".", ""), b.replace(".", ""));
+    result = result.split("").reverse();
+    result[comas] = result[comas] + ".";
+
+
+    return result.reverse().join("")
+
+}
+
+
+
+const division_decimales = (a, b) => {
+    let comas = 0;
+
+    a = a.toString().trim();
+    b = b.toString().trim();
+
+    const comas_arr = [get_cant_comas(a), get_cant_comas(b)];
+
+    for (let i = 0; i < comas_arr.length; i++) {
+        if (comas_arr[i] > comas) {
+            comas = comas_arr[i];
+        }
+    }
+
+
+    const index = [a.indexOf('.'), b.indexOf('.')];
+
+
+    a = a.trim().split("");
+
+    b = b.trim().split("");
+
+
+    for (let i = 1; i <= comas; i++) {
+        // console.log(reverse_element(a)[i]);
+        // console.log(reverse_element(b)[i]);
+
+
+        if (a[index[0] + i] == undefined) {
+            a[index[0] + i] = 0;
+        }
+        if (b[index[1] + i] == undefined) {
+            b[index[1] + i] = 0;
+        }
+    }
+
+    a = a.join("").replace(".", "");
+    b = b.join("").replace(".", "");
+
+    let result = division_enteros(a, b);
+    return result
+
+}
+
+
+const resta_decimales = (a, b) => {
+
+
+
+    const sign = (parseFloat(a) - parseFloat(b) < 0) ? ('-') : ('');
+    console.log(parseFloat(a) - parseFloat(b));
+
+    console.log(sign);
+
+}
+
+
+const compare_Bi = (bt1, bt2) => {
+    bt1 = bt1.toString()
+    bt2 = bt2.toString()
+    let sondecimales = [bt1.includes("."), bt2.includes('.')];
+
+    if (sondecimales[0] && sondecimales[1]) {
+        //CONTAMOS UNO POR UNO LOS DIGITOS ANTES DE LA COMA Y DESPUES
+        // SI UNO TIENE MAS NUMEROS DELANTE DE LA COMA ES MAYOR
+        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
+        // SIN SON IGUALES A CONTAR HASTA DESENPATAR CON LA COMA
+
+    } else if (sondecimales[0] || sondecimales[1]) {
+        //CONTAMOS UNO POR UNO LOS DIGITOS ANTES DE LA COMA Y DESPUES
+        // SI UNO TIENE MAS NUMEROS DELANTE DE LA COMA ES MAYOR
+        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
+    } else {
+        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
+    }
+}
+
+const a = '531211241254413125412224123.555512312123123123123125';
+const b = '5312112412544132412352541222412352142144124245214214412424.3141241235214212514214444444433';
+console.log(resta_decimales());
