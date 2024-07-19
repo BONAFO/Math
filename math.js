@@ -1,13 +1,184 @@
+//.................................... TOOLS ...............................................//
+
+// REPITE STRINGS (USADO PARA AGREGAR 0)
 const repeat = (times, string) => {
     return new Array(times + 1).join(string);
 }
 
+// INVERTIR NUMERO
 const reverse_element = (e) => {
     return ((e.toString()).split("").reverse()).join("")
 }
 
+// LIMPIAR LOS 0 AL INICIO
+const reemplazar_ceros = (bt) => {
+
+    let spitto = 0;
+    for (let i = 0; i < bt.length; i++) {
+        if (bt[i] != 0) {
+            spitto = i;
+            break
+        }
+
+    }
+
+    return bt.substring(spitto)
+}
+
+// OBTIENE LA CANTIDAD DE COMAS QUE UN NUMERO TIENE
+const get_cant_comas = (num) => {
+    if (num.includes(".")) {
+        const i = num.indexOf('.');
+        return num.substring(i + 1).length
+    }
+
+    return 0
+}
+
+// COMPARAR 2 NUMEROS SIN IMPORTAR SU TAMAÑO Y SI ES DECIMAL (NO SIRVE CON NEGATIVOS)
+const compare_Bi = (bt1, bt2) => {
+    bt1 = bt1.toString()
+    bt2 = bt2.toString()
+    let sondecimales = [bt1.includes("."), bt2.includes('.')];
 
 
+    if (sondecimales[0] || sondecimales[1]) {
+
+        const num1 = bt1.split(".");
+        const num2 = bt2.split(".");
+
+
+        if (num1[0].length > num2[0].length) {
+            return true
+        } else if (num1[0].length < num2[0].length) {
+            return false
+        } else if (num1[0].length == num2[0].length) {
+
+            if (!num1[1] || !num2[1]) {
+                if (!num1[1]) {
+                    return false
+                } else {
+                    return true
+                }
+            } else if (num1[0] != num2[0]) {
+
+                for (let i = 0; i < num1[0].length; i++) {
+                    if (parseInt(num1[0][i]) < parseInt(num2[0][i])) {
+                        return false
+                    } else if (parseInt(num1[0][i]) > parseInt(num2[0][i])) {
+                        return true
+                    }
+
+                }
+            } else {
+                const counter = num1[1].length > num2[1].length ? num1[1].length : num2[1].length;
+
+                for (let i = 0; i < counter; i++) {
+
+                    if (!num1[1][i] || !num2[1][i]) {
+                        if (!num1[1][i]) {
+                            return false
+                        } else {
+                            return true
+                        }
+                    } else if (parseInt(num1[1][i]) < parseInt(num2[1][i])) {
+                        return false
+                    } else if (parseInt(num1[1][i]) > parseInt(num2[1][i])) {
+                        return true
+                    }
+
+                }
+                return false
+            }
+
+        }
+
+    } else {
+        if (bt1.length > bt2.length) {
+            return true
+        } else if (bt1.length < bt2.length) {
+            return false
+        } else {
+            if (bt1 != bt2) {
+
+                for (let i = 0; i < bt1.length; i++) {
+                    if (parseInt(bt1[i]) < parseInt(bt2[i])) {
+                        return false
+                    } else if (parseInt(bt1[i]) > parseInt(bt2[i])) {
+                        return true
+                    }
+                }
+
+            } else {
+                return false
+            }
+        }
+    }
+
+}
+
+// CONVIERTE UN NUMERO DECIMAL A ENTERO
+const decimal_to_entero = (a, b) => {
+
+    const comas_arr = [get_cant_comas(a), get_cant_comas(b)];
+    let comas = 0;
+
+    if (!a.includes(".")) {
+        a += ".";
+    }
+
+
+
+    if (!b.includes(".")) {
+        b += ".";
+    }
+
+    const index = [a.indexOf('.'), b.indexOf('.')];
+
+
+    for (let i = 0; i < comas_arr.length; i++) {
+        if (comas_arr[i] > comas) {
+            comas = comas_arr[i];
+        }
+    }
+
+
+
+    a = a.trim().split("");
+
+    b = b.trim().split("");
+
+
+    for (let i = 1; i <= comas; i++) {
+        // console.log(reverse_element(a)[i]);
+        // console.log(reverse_element(b)[i]);
+
+
+        if (a[index[0] + i] == undefined) {
+            a[index[0] + i] = 0;
+        }
+        if (b[index[1] + i] == undefined) {
+            b[index[1] + i] = 0;
+        }
+    }
+    a = a.join("").replace(".", "");
+    b = b.join("").replace(".", "");
+
+
+
+    return { comas, a, b }
+
+}
+
+// SABER SI EL NUMERO ES NEGATIVO
+const is_negative = (a) => {
+    return a.toString().includes("-")
+};
+
+//.................................... TOOLS ...............................................//
+
+
+//.................................... ENTEROS ...............................................//
 
 const sumar_enteros = (a, b) => {
 
@@ -109,21 +280,6 @@ const multiplicacion_enteros = (nu1, nu2) => {
 
 }
 
-const reemplazar_ceros = (bt) => {
-
-    let spitto = 0;
-    for (let i = 0; i < bt.length; i++) {
-        if (bt[i] != 0) {
-            spitto = i;
-            break
-        }
-
-    }
-
-    return bt.substring(spitto)
-}
-
-
 const division_enteros = (dividendo, divisor) => {
     let resto = "0";
     let cociente = "";
@@ -175,9 +331,6 @@ const division_enteros = (dividendo, divisor) => {
     }
 
 }
-
-
-
 
 const resta_enteros = (a, b) => {
 
@@ -235,56 +388,10 @@ const resta_enteros = (a, b) => {
     return `${sign}${ result.reverse().join("")}`
 }
 
+//.................................... ENTEROS ...............................................//
 
 
-
-const division_enteros_test = (a, b) => {
-    // console.log("COCIENTE", Math.floor(a / b));
-    // console.log("RESTO", Math.floor(a % b));
-    let cociente = "";
-    let resto = "";
-    let counter = 0;
-    let inter = setInterval(() => {
-        console.log('---------------------------------------');
-        console.log("OPERACION:", `${resto}${a[counter]} / ${b}`);
-        cociente += (Math.floor(parseInt(`${resto}${a[counter]}`) / b)).toString();
-        resto = parseInt(`${resto}${a[counter]}`) % b;
-        console.log("COCIENTE: ", cociente);
-        console.log("RESTO: ", resto);
-        counter++
-
-
-        console.log('---------------------------------------');
-        if (a.length == counter) {
-            clearInterval(inter)
-            console.log('---------------------------------------');
-            console.log("COMPROBACION:");
-            console.log(division_enteros(num, num2).cociente == cociente);
-            console.log('---------------------------------------');
-        }
-
-
-    }, 10);
-}
-
-
-const espacios_comas = (a, b) => {
-    console.log(a * b);
-}
-
-
-
-const get_cant_comas = (num) => {
-    if (num.includes(".")) {
-        const i = num.indexOf('.');
-        return num.substring(i + 1).length
-    }
-
-    return 0
-}
-
-
-
+//.................................... DECIMALES ...............................................//
 
 const multiplicacion_decimales = (a, b) => {
     let comas = 0;
@@ -307,85 +414,76 @@ const multiplicacion_decimales = (a, b) => {
 
 }
 
-
-
 const division_decimales = (a, b) => {
+
+    const sign = (!compare_Bi(a, b) && a != b) ? ('-') : ('');
     let comas = 0;
 
     a = a.toString().trim();
     b = b.toString().trim();
 
-    const comas_arr = [get_cant_comas(a), get_cant_comas(b)];
-
-    for (let i = 0; i < comas_arr.length; i++) {
-        if (comas_arr[i] > comas) {
-            comas = comas_arr[i];
-        }
-    }
 
 
-    const index = [a.indexOf('.'), b.indexOf('.')];
+    const data = decimal_to_entero(a, b);
 
 
-    a = a.trim().split("");
+    a = data["a"];
+    b = data["b"];
+    comas = data["comas"];
 
-    b = b.trim().split("");
-
-
-    for (let i = 1; i <= comas; i++) {
-        // console.log(reverse_element(a)[i]);
-        // console.log(reverse_element(b)[i]);
-
-
-        if (a[index[0] + i] == undefined) {
-            a[index[0] + i] = 0;
-        }
-        if (b[index[1] + i] == undefined) {
-            b[index[1] + i] = 0;
-        }
-    }
-
-    a = a.join("").replace(".", "");
-    b = b.join("").replace(".", "");
 
     let result = division_enteros(a, b);
     return result
 
 }
 
-
 const resta_decimales = (a, b) => {
+    let comas = 0;
+
+    a = a.toString().trim();
+    b = b.toString().trim();
 
 
+    const sign = (!compare_Bi(a, b) && a != b) ? ('-') : ('');
 
-    const sign = (parseFloat(a) - parseFloat(b) < 0) ? ('-') : ('');
-    console.log(parseFloat(a) - parseFloat(b));
 
-    console.log(sign);
+    const data = decimal_to_entero(a, b);
 
+
+    a = data["a"];
+    b = data["b"];
+    comas = data["comas"];
+
+    let result = resta_enteros(a, b);
+
+
+    result = reverse_element(result).split("");
+    result[comas - 1] += "."
+    return sign + reverse_element(result.join(""));
 }
 
+const suma_decimales = (a, b) => {
+    let comas = 0;
 
-const compare_Bi = (bt1, bt2) => {
-    bt1 = bt1.toString()
-    bt2 = bt2.toString()
-    let sondecimales = [bt1.includes("."), bt2.includes('.')];
+    a = a.toString().trim();
+    b = b.toString().trim();
 
-    if (sondecimales[0] && sondecimales[1]) {
-        //CONTAMOS UNO POR UNO LOS DIGITOS ANTES DE LA COMA Y DESPUES
-        // SI UNO TIENE MAS NUMEROS DELANTE DE LA COMA ES MAYOR
-        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
-        // SIN SON IGUALES A CONTAR HASTA DESENPATAR CON LA COMA
+    // const sign = (!compare_Bi(a, b) && a != b) ? ('-') : ('');
 
-    } else if (sondecimales[0] || sondecimales[1]) {
-        //CONTAMOS UNO POR UNO LOS DIGITOS ANTES DE LA COMA Y DESPUES
-        // SI UNO TIENE MAS NUMEROS DELANTE DE LA COMA ES MAYOR
-        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
-    } else {
-        // SI TIENEN LA MISMA CANT COMPRAR POR DIGISTOS
-    }
+
+    const data = decimal_to_entero(a, b);
+
+
+    a = data["a"];
+    b = data["b"];
+    comas = data["comas"];
+
+    let result = sumar_enteros(a, b);
+
+
+    result = reverse_element(result).split("");
+    result[comas - 1] += "."
+    return reverse_element(result.join(""));
 }
 
-const a = '531211241254413125412224123.555512312123123123123125';
-const b = '5312112412544132412352541222412352142144124245214214412424.3141241235214212514214444444433';
-console.log(resta_decimales());
+//.................................... DECIMALES ...............................................//
